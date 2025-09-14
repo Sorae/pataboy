@@ -1,6 +1,6 @@
 VERSION := 0
-GAMEID := BOIL
-TITLE := BOILERPLATE
+GAMEID := PATA
+TITLE := pataboy
 LICENSEE := HB
 OLDLIC := 0x33
 MBC := MBC5
@@ -12,5 +12,5 @@ SRAMSIZE := 0x00
 # LDFLAGS += -w
 # LDFLAGS += -t
 PADVALUE := 0xFF
-ROMNAME := boilerplate
+ROMNAME := Pataboy
 ROMEXT  := gb

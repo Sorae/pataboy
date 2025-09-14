@@ -1,11 +1,10 @@
 INCLUDE "defines.inc"
 
-
 SECTION "Intro", ROMX
 
 Intro::
-; Remove this line
-	rst Crash
-
-; Put your code here!
-	jr @
+	; Shut down audio circuitry
+	ld a, 0
+	ld [rNR52], a
+	
+	call InitGame
