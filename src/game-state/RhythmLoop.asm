@@ -3,6 +3,7 @@ INCLUDE "defines.inc"
 
 SECTION "RhythmVariables", WRAM0
 def BEAT_TRIGGER equ 30
+def FLASH_DURATION equ 5
 def MAX_BEAT equ 4
 
 loopCounter:: ds 1
@@ -21,25 +22,36 @@ UpdateRhythmLoop::
     ld a, [loopCounter]
     inc a
     ld [loopCounter], a
-    ; 2 Beat per seconds (60hz) so every 30 frames we tigger the Beat
+    ; 2 Beats per seconds (60hz) so every 30 frames we trigger the Beat
     cp BEAT_TRIGGER
-    jp nc, TriggerBeat
+    call nc, TriggerBeat
+    ; Flash screen for FLASH_DURATION frames after the Beat
+    ld [loopCounter], a
+    cp FLASH_DURATION
+    jp c, FlashScreen
     jp SetBasePalet
 
 TriggerBeat::
     ; Reset counter
     xor a
     ld [loopCounter], a
-    call FlashScreen
-    jp EndRhythmLoop
+    ; Increment beat
+    ld a, 1
+    ld [beatCounter], a
+    ; Modulo 4 (Max beat)
+    ld a, [beatCounter]
+    and MAX_BEAT - 1
+    ld [beatCounter], a
+    ret
 
 FlashScreen::
-	ld a, $FF
-	ld [rBGP], a
-	ret
-
-SetBasePalet::
 	ld a, %11100100
+	ld [rBGP], a
+
+    jp EndRhythmLoop
+    
+SetBasePalet::
+    ld a, %11010100
 	ld [rBGP], a
 	jp EndRhythmLoop
 
