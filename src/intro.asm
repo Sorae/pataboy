@@ -7,4 +7,4 @@ Intro::
 	ld a, 0
 	ld [rNR52], a
 	
-	call InitGame
+	call GameState
